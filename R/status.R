@@ -154,9 +154,9 @@ get_current_time <- function() {
   format(Sys.time(), "%d/%m/%Y %H:%M:%S")
 }
 
-##' .. content for \description{} (no empty lines) ..
+##' Get the current stage
 ##'
-##' .. content for \details{} ..
+##' Return the current analysis stage
 ##' @title Get the current stage
 ##' @return current analysis stage
 ##' @author Murray
@@ -166,9 +166,9 @@ get_current_stage <- function() {
   return(status_$settings$current_stage$item)
 }
 
-##' .. content for \description{} (no empty lines) ..
+##' Set the current stage
 ##'
-##' .. content for \details{} ..
+##' Set the current analysis stage
 ##' @title Set the analysis stage (a number)
 ##' @param stage a numeric value representing the current analysis stage
 ##' @param title a string representing a descriptive title to use for the stage title
@@ -393,13 +393,13 @@ status_try_catch <- function(exp, stage_, name_, item_) {
 
 
 
-##' .. content for \description{} (no empty lines) ..
+##' Update the status of status items
 ##'
-##' .. content for \details{} ..
+##' Update the status of the status items
 ##' @title Update the status' status field
-##' @param stage
-##' @param item
-##' @param status
+##' @param stage integer representing the analysis stage
+##' @param item character - a status item key
+##' @param status character - the items status
 ##' @return NULL
 ##' @author Murray Logan
 update_status_status <- function(stage, item, status) {
@@ -407,13 +407,13 @@ update_status_status <- function(stage, item, status) {
   status_$status[[stage]]$status[which(status_$status[[stage]]$item == item)] <- status
   write_status(status_)
 }
-##' .. content for \description{} (no empty lines) ..
+##' Update status name
 ##'
-##' .. content for \details{} ..
+##' Update the name of a status item
 ##' @title Update the status' name field
-##' @param stage
-##' @param item
-##' @param name
+##' @param stage integer representing the analysis stage
+##' @param item character - a status item key
+##' @param name character - a status item name
 ##' @return NULL
 ##' @author Murray Logan
 update_status_name <- function(stage, item, name) {
@@ -421,13 +421,13 @@ update_status_name <- function(stage, item, name) {
   status_$status[[stage]]$names[which(status_$status[[stage]]$item == item)] <- name
   write_status(status_)
 }
-##' .. content for \description{} (no empty lines) ..
+##' Add a status setting item
 ##'
-##' .. content for \details{} ..
+##' Add a status setting item
 ##' @title Add setting
-##' @param element
-##' @param item
-##' @param name
+##' @param element character representing the element to add to the 
+##' @param item character - a status item key
+##' @param name character - a status item name
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
@@ -454,9 +454,9 @@ add_setting <- function(element, item, name) {
 ## - msg:        the message (as a string) to appear verbatim in the log          ##
 ####################################################################################
 
-##' .. content for \description{} (no empty lines) ..
+##' Write the status to log_file
 ##'
-##' .. content for \details{} ..
+##' Write the status to log_file
 ##' @title Write status log
 ##' @param status the status of the task
 ##' @param log_file the full path to the log file
