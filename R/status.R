@@ -15,10 +15,11 @@
 ##' - populate the status element of the status_ list by scanning
 ##'   through the R scripts for the pertenant metadata
 ##' @title Initialize the status
+##' @param pkgs character vector of package names to also traverse looking for status tokens
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
-status_initialize <- function() {
+status_initialize <- function(pkgs = NULL) {
         assign("debug_mode", TRUE, envir = .GlobalEnv)
         assign("status_dir", tempdir(), envir = .GlobalEnv)
         dir.create(status_dir)
@@ -45,6 +46,14 @@ status_initialize <- function() {
         script_text <- NULL
         for (f in files) {
                 script_text <- c(script_text, readLines((f)))
+        }
+        ## Now look through any suggested packages
+        if (!is.null(pkgs)) {
+          pkg_str <- lsf.str(paste0("package:", pkgs))
+          pkg_str <- sapply(pkg_str, function(x)
+            eval(parse(text = x)) |> deparse()
+          )
+          script_text <- c(script_text, paste(do.call("c", pkg_str), collapse = "\n"))
         }
         ## Exclude commented out lines
         script_text <- script_text[grep("^\\s*##.*", script_text, invert=TRUE)]
