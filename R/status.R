@@ -15,7 +15,6 @@
 ##' - populate the status element of the status_ list by scanning
 ##'   through the R scripts for the pertenant metadata
 ##' @title Initialize the status
-##' @param pkgs character vector of package names to also traverse looking for status tokens
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
@@ -49,9 +48,9 @@ status_initialize <- function(pkgs = NULL) {
         }
         ## Now look through any suggested packages
         if (!is.null(pkgs)) {
-          pkg_str <- lsf.str(paste0("package:", pkgs))
+          pkg_str <- lsf.str(envir = asNamespace(pkgs))
           pkg_str <- sapply(pkg_str, function(x)
-            eval(parse(text = x)) |> deparse()
+            eval(parse(text = x), envir = asNamespace(pkgs)) |> deparse()
           )
           script_text <- c(script_text, paste(do.call("c", pkg_str), collapse = "\n"))
         }
@@ -449,6 +448,20 @@ add_setting <- function(element, item, name) {
   write_status(status_)
 }
 
+##' Update a status setting item
+##'
+##' Update a status setting item
+##' @title Update setting
+##' @param element character representing the element to add to the 
+##' @param item character - a status item key
+##' @return NULL
+##' @author Murray Logan
+##' @export
+update_setting <- function(element, item) {
+  status_ <- read_status()
+  status_$settings[[element]]$item <- item
+  write_status(status_)
+}
 ####################################################################################
 ## The following function writes out log information to a file named by the       ##
 ## LOG_FILE global variable.                                                      ##
