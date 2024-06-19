@@ -235,7 +235,8 @@ log_box <- function(box_width, box_margins) {
   } else {
     log <- ""
   }
-  pos <- max(stringr::str_locate(log, "\\|[^| ]*:\ ")[,"end"])
+  pos <- max(stringr::str_locate(log, "\\|[^| ]*:\ ")[, "end"], na.rm = TRUE)
+  pos <- ifelse(is.na(pos), 0, pos)
   log <- cli::ansi_strwrap(log,width = 80, exdent = pos)
   log_text <- paste0(
     cli::ansi_align(
