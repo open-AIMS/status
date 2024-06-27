@@ -361,7 +361,11 @@ status_try_catch <- function(exp, stage_, name_, item_) {
   ## if there are errors
   if(!is.atomic(ret$value) && any(class(ret$value) %in% c("simpleError", "error", "rlang_error"))){
     class(ret) <- "try-error"
-    if (status) status_log('ERROR', log_file, stage_, paste(name_, ret$value$message))
+    ## if (status) status_log('ERROR', log_file, stage_, paste(name_, ret$value$message))
+    mess <- gsub("\033\\[[0-9;]*[mK]", "", rlang::cnd_message(ret$value))
+    trace_string <- paste(capture.output(print(ret$value$parent$trace)), collapse = "\n")
+    mess <- paste(mess, trace_string, sep = "\n")
+    if (status) status_log('ERROR', log_file, stage_, paste(name_, mess))
     if (status) update_status_status(
       stage = status_$settings$current_stage$item,
       item = item_, status = "failure"
