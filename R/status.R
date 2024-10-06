@@ -15,12 +15,15 @@
 ##' - populate the status element of the status_ list by scanning
 ##'   through the R scripts for the pertenant metadata
 ##' @title Initialize the status
+##' @param pkgs a vector of package names to be scanned for status metadata
+##' @param project_name a string representing the name of the project
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
-status_initialize <- function(pkgs = NULL) {
+status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Analysis Status") {
         assign("debug_mode", TRUE, envir = .GlobalEnv)
         assign("status_dir", tempdir(), envir = .GlobalEnv)
+        assign("project_name", project_name, envir = .GlobalEnv)
         dir.create(status_dir)
         assign("status_file", paste0(status_dir, "/status.Rdata"), envir = .GlobalEnv)
         assign("log_file", paste0(status_dir, "/project.log"), envir = .GlobalEnv)

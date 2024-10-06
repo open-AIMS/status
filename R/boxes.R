@@ -129,7 +129,7 @@ settings_box <- function(settings, box_width, box_nchar, box_margins) {
 ##' @return string representing the main status box
 ##' @author Murray Logan
 main_box <- function(status, run_stages, current_stage, box_width, settings_box_width, box_margins) {
-    main_box_text <- c("Sediment Quality Analysis Status", "")
+    main_box_text <- c(project_name, "")
     ## format the title to be centered
     for (i in 1:length(main_box_text))
         main_box_text[i] <- cli::ansi_align(main_box_text[i],
