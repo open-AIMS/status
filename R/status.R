@@ -457,20 +457,20 @@ status_try_catch <- function(exp, stage_, name_, item_, order_) {
 add_status_item <- function(stage, item, name, status = "pending") {
   status_ <- read_status()
 
-  status_$status[stage]$stages <- c(
-    status_$status[stage]$stages,
+  status_$status[[stage]]$stages <- c(
+    status_$status[[stage]]$stages,
     stage
   )
-  status_$status[stage]$names <- c(
-    status_$status[stage]$names,
+  status_$status[[stage]]$names <- c(
+    status_$status[[stage]]$names,
     name
   )
-  status_$status[stage]$items <- c(
-    status_$status[stage]$items,
+  status_$status[[stage]]$items <- c(
+    status_$status[[stage]]$items,
     item
   )
-  status_$status[stage]$status <- c(
-    status_$status[stage]$status,
+  status_$status[[stage]]$status <- c(
+    status_$status[[stage]]$status,
     status
   )
   write_status(status_)
