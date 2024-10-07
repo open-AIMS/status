@@ -454,7 +454,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_) {
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
-add_status_item <- function(stage, item, name) {
+add_status_item <- function(stage, item, name, status = "pending") {
   status_ <- read_status()
 
   status_$status[stage]$stages <- c(
@@ -471,7 +471,7 @@ add_status_item <- function(stage, item, name) {
   )
   status_$status[stage]$status <- c(
     status_$status[stage]$status,
-    "pending"
+    status
   )
   write_status(status_)
 }
