@@ -165,6 +165,20 @@ get_current_time <- function() {
   format(Sys.time(), "%d/%m/%Y %H:%M:%S")
 }
 
+
+##' Get the item of a setting
+##'
+##' Return the item of a setting element
+##' @title Get the item of a setting
+##' @param element the name of the element to return
+##' @return item of a setting element
+##' @author Murray
+##' @export
+get_setting <- function(element) {
+  status_ <- read_status()
+  return(status_$settings[[element]]$item)
+}
+
 ##' Get the current stage
 ##'
 ##' Return the current analysis stage
