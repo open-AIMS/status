@@ -483,7 +483,24 @@ add_status_item <- function(stage, order = NULL, item, name, status = "pending")
   )
   write_status(status_)
 }
-
+##' Remove status item
+##'
+##' Remove a status item from the status_ list
+##' @title Remove status item 
+##' @param stage integer representing the analysis stage 
+##' @param item character - a status item key 
+##' @return NULL 
+##' @author Murray
+##' @export
+remove_status_item <- function(stage, item) {
+  status_ <- read_status()
+  wch <- which(status_$status[[stage]]$item == item)
+  status_$status[[stage]]$stages <- status_$status[[stage]]$stages[-wch]
+  status_$status[[stage]]$names <- status_$status[[stage]]$names[-wch]
+  status_$status[[stage]]$items <- status_$status[[stage]]$items[-wch]
+  status_$status[[stage]]$status <- status_$status[[stage]]$status[-wch]
+  write_status(status_)
+}
 
 ##' Update the status of status items
 ##'
