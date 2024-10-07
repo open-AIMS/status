@@ -340,7 +340,7 @@ status_try_catch_old <- function(expr, stage_, name_, item_) {
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
-status_try_catch <- function(exp, stage_, name_, item_) {
+status_try_catch <- function(exp, stage_, name_, item_, order_) {
   status <- exists("status_file")
   if (status) status_ <- read_status()
   max_warnings <- 10
