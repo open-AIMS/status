@@ -454,24 +454,32 @@ status_try_catch <- function(exp, stage_, name_, item_, order_) {
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
-add_status_item <- function(stage, item, name, status = "pending") {
+add_status_item <- function(stage, order = NULL, item, name, status = "pending") {
   status_ <- read_status()
 
-  status_$status[[stage]]$stages <- c(
-    status_$status[[stage]]$stages,
-    stage
+  ## discover what the minimum order of an pending item is
+  wch_order <- min(which(status_$status[[1]]$status == "pending")) - 1
+  ## need to slot the current item in before that
+
+  status_$status[[stage]]$status
+  status_$status[[stage]]$stages <- append(status_$status[[stage]]$stages,
+    stage,
+    after = wch_order
   )
-  status_$status[[stage]]$names <- c(
+  status_$status[[stage]]$names <- append(
     status_$status[[stage]]$names,
-    name
+    name,
+    after = wch_order
   )
-  status_$status[[stage]]$items <- c(
+  status_$status[[stage]]$items <- append(
     status_$status[[stage]]$items,
-    item
+    item,
+    after = wch_order
   )
-  status_$status[[stage]]$status <- c(
+  status_$status[[stage]]$status <- append(
     status_$status[[stage]]$status,
-    status
+    status,
+    after = wch_order
   )
   write_status(status_)
 }
