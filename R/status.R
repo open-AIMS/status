@@ -109,12 +109,17 @@ parse_status <- function(status_, script_text = "") {
   ## status_item <- gsub('.*_item\\s*=\\s*\"([^\"]*)\".*', "\\1", status_blocks)
   status_name <- gsub(".*_?name_?\\s*=\\s*([^,\\)\n]*).*", "\\1", status_blocks)
   status_name <- gsub("\"", "", status_name)
-  status_order_bool <- grepl("order", status_blocks)
-  if (any(status_order_bool)) {
-    status_order <- gsub(".*_?order_?\\s*=\\s*([^,\\)\n]*).*", "\\1", status_blocks[status_order_bool])
-    status_order <- gsub("\"", "", status_order)
-  } else {
-    status_order <- rep(NA, length(status_blocks))
+  status_order_wch <- grep("order", status_blocks)
+  status_order <- rep(NA, length(status_blocks))
+  if (any(!is.na(status_order_wch))) {
+    status_order[status_order_wch] <- gsub(
+      ".*_?order_?\\s*=\\s*([^,\\)\n]*).*", "\\1",
+      status_blocks[status_order_wch]
+    )
+    status_order[status_order_wch] <- gsub(
+      "\"", "",
+      status_order[status_order_wch]
+    )
   }
   status_status <- rep("pending", length(status_name))
 
