@@ -444,7 +444,37 @@ status_try_catch <- function(exp, stage_, name_, item_, order_) {
 }
 
 
+##' Added a status item
+##'
+##' Append a status item to the status_ list
+##' @title Add status item
+##' @param stage integer representing the analysis stage
+##' @param item character - a status item key
+##' @param name character - the name of the status item
+##' @return NULL
+##' @author Murray Logan
+##' @export
+add_status_item <- function(stage, item, name) {
+  status_ <- read_status()
 
+  status_$status[stage]$stages <- c(
+    status_$status[stage]$stages,
+    stage
+  )
+  status_$status[stage]$names <- c(
+    status_$status[stage]$names,
+    name
+  )
+  status_$status[stage]$items <- c(
+    status_$status[stage]$items,
+    item
+  )
+  status_$status[stage]$status <- c(
+    status_$status[stage]$status,
+    "pending"
+  )
+  write_status(status_)
+}
 
 
 ##' Update the status of status items
