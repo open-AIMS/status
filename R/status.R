@@ -127,17 +127,29 @@ parse_status <- function(status_, script_text = "") {
     status_$status <- vector("list", length(unique(status_stage)))
     names(status_$status) <- unique(status_stage)
   }
+
   status_$status <-
-    ## sapply(unique(status_stage), function(x) {
-    lapply(sort(unique(c(names(status_$status), status_order, status_stage))), function(x) {
-      ## list(name = c(x$name, status_name[status_stage == as.numeric(names(x))]))
+    lapply(sort(unique(c(names(status_$status), status_stage))), function(x) {
+      ord <- order(status_order[status_stage == x])
       list(
-        stages = c(status_$status[[x]]$stages, status_stage[status_stage == x]),
-        names = c(status_$status[[x]]$names, status_name[status_stage == x]),
-        items = c(status_$status[[x]]$items, status_item[status_stage == x]),
-        status = c(status_$status[[x]]$status, status_status[status_stage == x])
+        stages = c(status_$status[[x]]$stages, status_stage[status_stage == x][ord]),
+        names = c(status_$status[[x]]$names, status_name[status_stage == x][ord]),
+        items = c(status_$status[[x]]$items, status_item[status_stage == x][ord]),
+        status = c(status_$status[[x]]$status, status_status[status_stage == x][ord])
       )
     })
+
+  ## status_$status <-
+  ##   ## sapply(unique(status_stage), function(x) {
+  ##   lapply(sort(unique(c(names(status_$status), status_stage))), function(x) {
+  ##     ## list(name = c(x$name, status_name[status_stage == as.numeric(names(x))]))
+  ##     list(
+  ##       stages = c(status_$status[[x]]$stages, status_stage[status_stage == x]),
+  ##       names = c(status_$status[[x]]$names, status_name[status_stage == x]),
+  ##       items = c(status_$status[[x]]$items, status_item[status_stage == x]),
+  ##       status = c(status_$status[[x]]$status, status_status[status_stage == x])
+  ##     )
+  ##   })
 
   status_$status <- setNames(status_$status, sapply(status_$status, function(x) unique(x$stages)))
 
