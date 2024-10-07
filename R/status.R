@@ -109,6 +109,13 @@ parse_status <- function(status_, script_text = "") {
   ## status_item <- gsub('.*_item\\s*=\\s*\"([^\"]*)\".*', "\\1", status_blocks)
   status_name <- gsub(".*_?name_?\\s*=\\s*([^,\\)\n]*).*", "\\1", status_blocks)
   status_name <- gsub("\"", "", status_name)
+  status_order_bool <- grepl("order", status_blocks[status_order_bool])
+  if (any(status_order_bool)) {
+    status_order <- gsub(".*_?order_?\\s*=\\s*([^,\\)\n]*).*", "\\1", status_blocks[status_order_bool])
+    status_order <- gsub("\"", "", status_order)
+  } else {
+    status_order <- rep(NA, length(status_blocks))
+  }
   status_status <- rep("pending", length(status_name))
 
   if (is.null(status_$status)) {
@@ -117,7 +124,7 @@ parse_status <- function(status_, script_text = "") {
   }
   status_$status <-
     ## sapply(unique(status_stage), function(x) {
-    lapply(sort(unique(c(names(status_$status), status_stage))), function(x) {
+    lapply(sort(unique(c(names(status_$status), status_order, status_stage))), function(x) {
       ## list(name = c(x$name, status_name[status_stage == as.numeric(names(x))]))
       list(
         stages = c(status_$status[[x]]$stages, status_stage[status_stage == x]),
