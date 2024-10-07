@@ -20,7 +20,8 @@
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
-status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Analysis Status") {
+status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Analysis Status", box_width = 80) {
+        assign("box_width", box_width, envir = .GlobalEnv)
         assign("debug_mode", TRUE, envir = .GlobalEnv)
         assign("status_dir", tempdir(), envir = .GlobalEnv)
         assign("project_name", project_name, envir = .GlobalEnv)

@@ -10,7 +10,7 @@ display_status_terminal <- function(dest = "term") {
     write_status(status_)
 
     ## box_style <- cli:::box_styles()
-    box_width <- 80
+    ## box_width <- 80
     box_margins <- 1
 
     ## get the width of the path box
