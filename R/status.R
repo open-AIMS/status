@@ -36,6 +36,7 @@ status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Anal
           log_file = list(item = basename(log_file), name = "Log filename"),
           time = list(item = get_current_time(), name = "Date/Time"),
           current_stage = list(item = 1, name = "Current stage")
+          current_item = list(item = 0, name = "Initialising")
           )
 
         status_ <- list(
