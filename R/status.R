@@ -590,7 +590,7 @@ duplicate_status_item <- function(stage, order, item, name, original_item) {
   if (status) status_ <- read_status()
   wch <- which(status_$status[[stage]]$items == original_item)
   original_status <- status_$status[[stage]]$status[wch]
-  order <- status_$status[[stage]]$status[wch]
+  order <- wch ## status_$status[[stage]]$status[wch]
   item <- paste0(original_item, " ", item)
   name <- paste0(status_$status[[stage]]$names[wch], " ", name)
   status::add_status_item(
@@ -618,6 +618,7 @@ add_status_item <- function(stage, order = NULL, item, name, status = "pending")
   ## discover what the minimum order of an pending item is
   wch_order <- min(c(length(status_$status[[1]]$status),
     which(status_$status[[stage]]$status == "pending"))) - 1
+  if (!is.null(order)) wch_order <- order
   ## need to slot the current item in before that
 
   status_$status[[stage]]$status
