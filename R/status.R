@@ -573,7 +573,32 @@ status_try_catch <- function(exp, stage_, name_, item_, order_) {
   if (status) display_status_terminal()
   return(ret$value)
 }
-
+##' .. content for \description{} (no empty lines) ..
+##'
+##' .. content for \details{} ..
+##' @title 
+##' @param stage 
+##' @param order 
+##' @param item 
+##' @param name 
+##' @param original_item 
+##' @return 
+##' @author Murray
+##' @export
+duplicate_status_item <- function(stage, order, item, name, original_item) {
+  status_ <- read_status()
+  wch <- which(status_$status[[stage]]$items == original_item)
+  original_status <- status_$status[[stage]]$status[wch]
+  order <- status_$status[[stage]]$status[wch]
+  item <- paste0(original_item, " ", item)
+  name <- paste0(status_$status[[stage]]$names[wch], " ", name)
+  status::add_status_item(
+    stage = stage,
+    order = order,
+    item = item,
+    name = name,
+    status = original_status)
+}
 
 ##' Added a status item
 ##'

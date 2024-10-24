@@ -3,6 +3,7 @@
 export(add_setting)
 export(add_status_item)
 export(display_status_terminal)
+export(duplicate_status_item)
 export(get_current_stage)
 export(get_setting)
 export(remove_status_item)
