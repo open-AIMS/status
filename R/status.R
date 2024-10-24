@@ -508,6 +508,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
         name = paste0(" (", abbreviate(sub_),")"),
         original_item = item_
       )
+      print("should be removed now")
       status::remove_status_item(stage = stage_, item = item_) 
     } else {
       status::add_status_item(
@@ -645,10 +646,7 @@ add_status_item <- function(stage, order = NULL, item, name, status = "pending")
   ## discover what the minimum order of an pending item is
   ## wch_order <- min(c(length(status_$status[[1]]$status),
   ##  which(status_$status[[stage]]$status == "pending"))) - 1
-  print(status_$status[[stage]]$items)
- print(status_$settings$current_item$item)
   wch_order <- which(status_$status[[stage]]$items == status_$settings$current_item$item)
-  print(wch_order)
   if (!is.null(order)) wch_order <- order
   ## need to slot the current item in before that
 
