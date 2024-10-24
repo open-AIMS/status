@@ -496,7 +496,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_) {
   max_warnings <- 10
   nwarnings <- 0
 
-  status_$settings$current_item$item <- item_
+  update_setting(element = "current_item", item = item_)
   
   tryCatch.W.E <- function(expr)
   {
