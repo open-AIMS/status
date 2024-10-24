@@ -501,7 +501,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
   ## If it doesnt exist
   ## 1. add item
   if (!is.null(sub_)) {
-    if (exists(status_$status[[stage_]]$items[item_])) {
+    if (item_ %in% status_$status[[stage_]]$items) {
       status::duplicate_status_item(
         stage = stage_, order = "current",
         item = abbreviate(sub_),
