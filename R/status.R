@@ -36,7 +36,7 @@ status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Anal
           log_file = list(item = basename(log_file), name = "Log filename"),
           time = list(item = get_current_time(), name = "Date/Time"),
           current_stage = list(item = 1, name = "Current stage"),
-          current_item = list(item = 0, name = "Initialising")
+          current_item = list(item = "Initialising", name = "Current item"")
           )
 
         status_ <- list(
@@ -496,6 +496,8 @@ status_try_catch <- function(exp, stage_, name_, item_, order_) {
   max_warnings <- 10
   nwarnings <- 0
 
+  status_$settings$current_item$item <- item_
+  
   tryCatch.W.E <- function(expr)
   {
     W <- NULL
