@@ -591,9 +591,10 @@ status_try_catch <- function(exp, stage_, name_, item_, order_) {
 duplicate_status_item <- function(stage, order, item, name, original_item) {
   status <- exists("status_file")
   if (status) status_ <- read_status()
+  wch_current <- which(status_$status[[stage]]$items == status_$settings$current_item$item)
   wch <- which(status_$status[[stage]]$items == original_item)
   original_status <- status_$status[[stage]]$status[wch]
-  order <- wch ## status_$status[[stage]]$status[wch]
+  order <- ifelse(order == "current", wch_current, wch) ## status_$status[[stage]]$status[wch]
   item <- paste0(original_item, " ", item)
   name <- paste0(status_$status[[stage]]$names[wch], " ", name)
   status::add_status_item(
