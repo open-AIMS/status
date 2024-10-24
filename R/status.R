@@ -586,7 +586,8 @@ status_try_catch <- function(exp, stage_, name_, item_, order_) {
 ##' @author Murray
 ##' @export
 duplicate_status_item <- function(stage, order, item, name, original_item) {
-  status_ <- read_status()
+  status <- exists("status_file")
+  if (status) status_ <- read_status()
   wch <- which(status_$status[[stage]]$items == original_item)
   original_status <- status_$status[[stage]]$status[wch]
   order <- status_$status[[stage]]$status[wch]
@@ -598,6 +599,7 @@ duplicate_status_item <- function(stage, order, item, name, original_item) {
     item = item,
     name = name,
     status = original_status)
+  if (status) display_status_terminal()
 }
 
 ##' Added a status item
