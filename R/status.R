@@ -508,7 +508,6 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
         name = paste0(" (", abbreviate(sub_),")"),
         original_item = item_
       )
-      print("should be removed now")
       status::remove_status_item(stage = stage_, item = item_) 
     } else {
       status::add_status_item(
