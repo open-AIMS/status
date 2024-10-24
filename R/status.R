@@ -617,7 +617,7 @@ add_status_item <- function(stage, order = NULL, item, name, status = "pending")
 
   ## discover what the minimum order of an pending item is
   wch_order <- min(c(length(status_$status[[1]]$status),
-    which(status_$status[[1]]$status == "pending"))) - 1
+    which(status_$status[[stage]]$status == "pending"))) - 1
   ## need to slot the current item in before that
 
   status_$status[[stage]]$status
