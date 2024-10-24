@@ -490,12 +490,34 @@ status_try_catch_old <- function(expr, stage_, name_, item_) {
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
-status_try_catch <- function(exp, stage_, name_, item_, order_) {
+status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
   status <- exists("status_file")
   if (status) status_ <- read_status()
   max_warnings <- 10
   nwarnings <- 0
-
+  ## if it exists
+  ## 1. duplicate item
+  ## 2. delete item
+  ## If it doesnt exist
+  ## 1. add item
+  if (!is.null(sub_)) {
+    if (exists(status_$status[[stage_]]$items[[item_]])) {
+      status::duplicate_status_item(
+        stage = stage_, order = "current",
+        item = abbreviate(sub_),
+        name = abbreviate(sub_),
+        original_item = item_
+      )
+      status::remove_status_item(stage = stage_, item = item_) 
+    } else {
+      status::add_status_item(
+        stage = stage_, order = NULL,
+        item = paste(item_, abbreviate(sub_)),
+        name = paste0(name_, abbreviate(sub_))
+      )
+    }
+    item_ <- paste0(item_, abbreviate(sub_))
+  }
   update_setting(element = "current_item", item = item_)
   
   tryCatch.W.E <- function(expr)
@@ -621,8 +643,9 @@ add_status_item <- function(stage, order = NULL, item, name, status = "pending")
   status_ <- read_status()
 
   ## discover what the minimum order of an pending item is
-  wch_order <- min(c(length(status_$status[[1]]$status),
-    which(status_$status[[stage]]$status == "pending"))) - 1
+  ## wch_order <- min(c(length(status_$status[[1]]$status),
+  ##  which(status_$status[[stage]]$status == "pending"))) - 1
+  wch_order <- which(status_$status[[stage]]$item == status_$settings$current_item)
   if (!is.null(order)) wch_order <- order
   ## need to slot the current item in before that
 
