@@ -603,6 +603,7 @@ duplicate_status_item <- function(stage, order, item, name, original_item) {
     item = item,
     name = name,
     status = original_status)
+  update_setting(element = "current_item", item = item)
   if (status) display_status_terminal()
 }
 
