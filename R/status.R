@@ -516,7 +516,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
         name = paste0(name_, " (", abbreviate(sub_), ")")
       )
     }
-    item_ <- paste0(item_, abbreviate(sub_))
+    item_ <- paste0(item_, "_", abbreviate(sub_))
   }
   update_setting(element = "current_item", item = item_)
   
