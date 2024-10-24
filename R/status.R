@@ -78,6 +78,7 @@ status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Anal
 ##' .. content for \description{} (no empty lines) ..
 ##'
 ##' .. content for \details{} ..
+##' This is essentially a copy of gtools::mixedsort
 ##' @title 
 ##' @param x 
 ##' @param decreasing 
@@ -102,6 +103,7 @@ status_mixedsort <- function (x, decreasing = FALSE, na.last = TRUE, blank.last 
 ##' .. content for \description{} (no empty lines) ..
 ##'
 ##' .. content for \details{} ..
+##' This is essentially a copy of gtools::mixedorder
 ##' @title 
 ##' @param x 
 ##' @param decreasing 
@@ -259,8 +261,8 @@ parse_status <- function(status_, script_text = "") {
   }
 
   status_$status <-
-    lapply(sort(unique(c(names(status_$status), status_stage))), function(x) {
-      ord <- order(status_order[status_stage == x])
+    lapply(status_mixedsort(unique(c(names(status_$status), status_stage))), function(x) {
+      ord <- status_mixedorder(status_order[status_stage == x])
       list(
         stages = c(status_$status[[x]]$stages, status_stage[status_stage == x][ord]),
         names = c(status_$status[[x]]$names, status_name[status_stage == x][ord]),
