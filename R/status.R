@@ -512,7 +512,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
     } else {
       status::add_status_item(
         stage = stage_, order = NULL,
-        item = paste(item_, abbreviate(sub_)),
+        item = paste0(item_, "_", abbreviate(sub_)),
         name = paste0(name_, " (", abbreviate(sub_), ")")
       )
     }
@@ -617,7 +617,7 @@ duplicate_status_item <- function(stage, order, item, name, original_item) {
   wch <- which(status_$status[[stage]]$items == original_item)
   original_status <- status_$status[[stage]]$status[wch]
   order <- ifelse(order == "current", wch_current, wch) ## status_$status[[stage]]$status[wch]
-  item <- paste0(original_item, " ", item)
+  item <- paste0(original_item, "_", item)
   name <- paste0(status_$status[[stage]]$names[wch], " ", name)
   status::add_status_item(
     stage = stage,
@@ -646,7 +646,7 @@ add_status_item <- function(stage, order = NULL, item, name, status = "pending")
   ## wch_order <- min(c(length(status_$status[[1]]$status),
   ##  which(status_$status[[stage]]$status == "pending"))) - 1
   print(status_$status[[stage]]$items)
- print(status_$settings$current_item)
+ print(status_$settings$current_item$item)
   wch_order <- which(status_$status[[stage]]$items == status_$settings$current_item$item)
   print(wch_order)
   if (!is.null(order)) wch_order <- order
