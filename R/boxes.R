@@ -137,6 +137,7 @@ main_box <- function(status, run_stages, current_stage, box_width, settings_box_
                                             align = 'center')
 
     ## add the stages as left justified
+    if (length(run_stages) == 0) return(main_box_text)
     for (j in 1:length(run_stages)) {
             main_box_text <- c(main_box_text,
                                cli::ansi_align(status[[run_stages[j]]]$title,
