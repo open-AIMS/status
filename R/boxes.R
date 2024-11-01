@@ -18,7 +18,7 @@ display_status_terminal <- function(dest = "term") {
       paste0(
         sapply(status_$settings, function(x) x$name),
         ": ",
-        sapply(status_$settings, function(x) x$item)
+        sapply(status_$settings, function(x) substr(x$item, 1, 30))
       ))
     settings_box_width <- max(settings_box_nchar) +
         2 +              # add one for the status character
@@ -105,7 +105,7 @@ wrap_string <- function(x, len) {
 settings_box <- function(settings, box_width, box_nchar, box_margins) {
         box_text <- NULL
         keys <- names(settings)
-        values <- sapply(settings, function(x) wrap_string(x$item,30))
+        values <- sapply(settings, function(x) truncate_string(x$item))
         names <- sapply(settings, function(x) x$name)
         for (i in seq_along(keys)) {
                 box_text <- c(
