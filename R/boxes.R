@@ -84,9 +84,9 @@ outer_box_top <- function(outer_box_width, this_box_width) {
     top
 }
 truncate_string <- function(x) {
-  ifelse(nchar(x) > 15, 
-    paste0(substr(x, 1, 10), "...",
-      substr(x, nchar(x) - 4, nchar(x))), 
+  ifelse(nchar(x) > 30, 
+    paste0(substr(x, 1, 15), "...",
+      substr(x, nchar(x) - 14, nchar(x))), 
     x)
 }
 ##' Construct the settings box
