@@ -83,6 +83,12 @@ outer_box_top <- function(outer_box_width, this_box_width) {
                   )
     top
 }
+truncate_string <- function(x) {
+  ifelse(nchar(x) > 15, 
+    paste0(substr(x, 1, 10), "...",
+      substr(x, nchar(x) - 4, nchar(x))), 
+    x)
+}
 ##' Construct the settings box
 ##'
 ##' Construct the settings box
@@ -96,7 +102,7 @@ outer_box_top <- function(outer_box_width, this_box_width) {
 settings_box <- function(settings, box_width, box_nchar, box_margins) {
         box_text <- NULL
         keys <- names(settings)
-        values <- sapply(settings, function(x) x$item)
+        values <- sapply(settings, function(x) truncate_string(x$item))
         names <- sapply(settings, function(x) x$name)
         for (i in seq_along(keys)) {
                 box_text <- c(
