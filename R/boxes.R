@@ -102,7 +102,7 @@ truncate_string <- function(x) {
 settings_box <- function(settings, box_width, box_nchar, box_margins) {
         box_text <- NULL
         keys <- names(settings)
-        values <- sapply(settings, function(x) truncate_string(x$item))
+        values <- sapply(settings, function(x) strwrap(x$item,30))
         names <- sapply(settings, function(x) x$name)
         for (i in seq_along(keys)) {
                 box_text <- c(
