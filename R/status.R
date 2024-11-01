@@ -20,19 +20,14 @@
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
-status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Analysis Status", status_dir = NULL, log_name = "project.log", box_width = 80) {
+status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Analysis Status", box_width = 80) {
         assign("box_width", box_width, envir = .GlobalEnv)
         assign("debug_mode", TRUE, envir = .GlobalEnv)
-        if (is.null(status_dir)) {
-          assign("status_dir", tempdir(), envir = .GlobalEnv)
-        } else {
-          assign("status_dir", status_dir, envir = .GlobalEnv)
-        }
+        assign("status_dir", tempdir(), envir = .GlobalEnv)
         assign("project_name", project_name, envir = .GlobalEnv)
         dir.create(status_dir)
         assign("status_file", paste0(status_dir, "/status.Rdata"), envir = .GlobalEnv)
-        ## assign("log_file", paste0(status_dir, "/project.log"), envir = .GlobalEnv)
-        assign("log_file", paste0(status_dir, "/", log_name), envir = .GlobalEnv)
+        assign("log_file", paste0(status_dir, "/project.log"), envir = .GlobalEnv)
         if (file.exists(log_file)) unlink(log_file)
         ## Initial settings
         settings <- list(
