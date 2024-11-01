@@ -20,14 +20,19 @@
 ##' @return NULL
 ##' @author Murray Logan
 ##' @export
-status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Analysis Status", box_width = 80) {
+status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Analysis Status", status_dir = NULL, log_name = "project.log", box_width = 80) {
         assign("box_width", box_width, envir = .GlobalEnv)
         assign("debug_mode", TRUE, envir = .GlobalEnv)
-        assign("status_dir", tempdir(), envir = .GlobalEnv)
+        if (is.null(status_dir)) {
+          assign("status_dir", tempdir(), envir = .GlobalEnv)
+        } else {
+          assign("status_dir", status_dir, envir = .GlobalEnv)
+        }
         assign("project_name", project_name, envir = .GlobalEnv)
         dir.create(status_dir)
         assign("status_file", paste0(status_dir, "/status.Rdata"), envir = .GlobalEnv)
-        assign("log_file", paste0(status_dir, "/project.log"), envir = .GlobalEnv)
+        ## assign("log_file", paste0(status_dir, "/project.log"), envir = .GlobalEnv)
+        assign("log_file", paste0(status_dir, "/", log_name), envir = .GlobalEnv)
         if (file.exists(log_file)) unlink(log_file)
         ## Initial settings
         settings <- list(
@@ -37,11 +42,11 @@ status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Anal
           time = list(item = get_current_time(), name = "Date/Time"),
           current_stage = list(item = 1, name = "Current stage"),
           current_item = list(item = "Initialising", name = "Current item")
-          )
+        )
 
         status_ <- list(
-                settings = settings,
-                status = NULL
+          settings = settings,
+          status = NULL
         )
         ## look through each of the *.R files in the project working
         ## directory and extract stages, items, and names and assign them
@@ -49,7 +54,7 @@ status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Anal
         files <- list.files(pattern = "*.R$")
         script_text <- NULL
         for (f in files) {
-                script_text <- c(script_text, readLines((f)))
+          script_text <- c(script_text, readLines((f)))
         }
         ## Now look through any suggested packages
         if (!is.null(pkgs)) {
