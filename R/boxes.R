@@ -86,7 +86,7 @@ outer_box_top <- function(outer_box_width, this_box_width) {
 truncate_string <- function(x) {
   ifelse(nchar(x) > 30, 
     paste0(substr(x, 1, 15), "...",
-      substr(x, nchar(x) - 14, nchar(x))), 
+      substr(x, nchar(x) - 11, nchar(x))), 
     x)
 }
 wrap_string <- function(x, len) {
