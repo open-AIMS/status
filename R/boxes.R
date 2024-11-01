@@ -89,6 +89,9 @@ truncate_string <- function(x) {
       substr(x, nchar(x) - 14, nchar(x))), 
     x)
 }
+wrap_string <- function(x, len) {
+  gsub(paste0("(.{", len, "})"), "\\1\\\n\\\t", x)
+}
 ##' Construct the settings box
 ##'
 ##' Construct the settings box
@@ -102,7 +105,7 @@ truncate_string <- function(x) {
 settings_box <- function(settings, box_width, box_nchar, box_margins) {
         box_text <- NULL
         keys <- names(settings)
-        values <- sapply(settings, function(x) strwrap(x$item,30))
+        values <- sapply(settings, function(x) wrap_string(x$item,30))
         names <- sapply(settings, function(x) x$name)
         for (i in seq_along(keys)) {
                 box_text <- c(
