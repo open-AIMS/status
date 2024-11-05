@@ -241,7 +241,7 @@ combined_boxes <- function(top, settings_box_text, main_box_text, bottom, box_wi
 ##' @author Murray Logan
 log_box <- function(box_width, box_margins) {
   if (file.exists(log_file)) {
-    log <- system(paste0("tail -n 5 ", log_file), intern = TRUE)
+    log <- system(paste0("tail -n 5 '", log_file, "'"), intern = TRUE)
   } else {
     log <- ""
   }
