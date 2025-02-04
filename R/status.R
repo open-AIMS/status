@@ -767,7 +767,9 @@ update_setting <- function(element, item) {
 
 ##' Write the status to log_file
 ##'
-##' Write the status to log_file
+##' Write the status to log_file.  If there is a status setting called
+##' "write_external_log", then this will be called as a function to
+##' write the log to an external file (which may be on a remote server).
 ##' @title Write status log
 ##' @param status the status of the task
 ##' @param log_file the full path to the log file
@@ -786,6 +788,10 @@ status_log <- function(status, log_file = log_file, Category, msg=NULL) {
     ## cat(paste0(msg,'\n'))
     if (!is.null(msg)) {
         write(msg,  file=paste0(log_file), append=TRUE)
+        if (!is.null(get_setting(element = "write_external_log"))) {
+         fn <- get_setting(element = "write_external_log")
+         fn()
+        }
     }
 }
 
