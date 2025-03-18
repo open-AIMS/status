@@ -537,7 +537,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
     m <- ret$warning$message
     ## m <- str_replace(m, "\\n$", "")
     ## Only if it is an internal (by my code) warning
-    if (grepl("WARNING", m)) {
+    if (any(grepl("WARNING", m))) {
       if (status) update_status_status(
         stage = status_$settings$current_stage$item,
         item = item_, status = "warning"
@@ -580,7 +580,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
   } else {
     go <- TRUE
     if (!is.null(ret$warning)) { # if there are warnings
-      if (grepl("WARNING", ret$warning$message)) { # if the warnings are internal
+      if (any(grepl("WARNING", ret$warning$message))) { # if the warnings are internal
         go <- FALSE
       }
     }
