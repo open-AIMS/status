@@ -28,6 +28,8 @@ status_initialize <- function(pkgs = NULL, project_name = "Sediment Quality Anal
         dir.create(status_dir)
         assign("status_file", paste0(status_dir, "/status.Rdata"), envir = .GlobalEnv)
         assign("log_file", paste0(status_dir, "/project.log"), envir = .GlobalEnv)
+        assign("do_display", TRUE, envir = .GlobalEnv)
+        assign("do_log", TRUE, envir = .GlobalEnv)
         if (file.exists(log_file)) unlink(log_file)
         ## Initial settings
         settings <- list(
@@ -492,7 +494,6 @@ status_try_catch_old <- function(expr, stage_, name_, item_) {
 ##' @export
 status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
   status <- exists("status_file")
-  do_log <- exists("log_file")
   if (status) status_ <- read_status()
   max_warnings <- 10
   nwarnings <- 0
@@ -596,7 +597,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
       TRUE
     }
   }
-  if (status) display_status_terminal()
+  if (status & do_display) display_status_terminal()
   return(ret$value)
 }
 ##' .. content for \description{} (no empty lines) ..
@@ -627,7 +628,7 @@ duplicate_status_item <- function(stage, order, item, name, original_item) {
     name = name,
     status = original_status)
   update_setting(element = "current_item", item = item)
-  if (status) display_status_terminal()
+  if (status & do_display) display_status_terminal()
 }
 
 ##' Added a status item
