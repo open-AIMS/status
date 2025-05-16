@@ -492,6 +492,7 @@ status_try_catch_old <- function(expr, stage_, name_, item_) {
 ##' @export
 status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
   status <- exists("status_file")
+  do_log <- exists("log_file")
   if (status) status_ <- read_status()
   max_warnings <- 10
   nwarnings <- 0
@@ -542,12 +543,12 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
         stage = status_$settings$current_stage$item,
         item = item_, status = "warning"
       )
-      if (status) status_log("WARNING", log_file, stage_, paste0(
+      if (status & do_log) status_log("WARNING", log_file, stage_, paste0(
         name_, ": ",
         gsub("WARNING:", "", m)
       ))
     } else {  ## If the warning is externally generated - for dev only
-      if (status) status_log("WARNING", log_file, stage_, paste0(
+      if (status & do_log) status_log("WARNING", log_file, stage_, paste0(
         name_, ": ",
         ## nwarnings + 1, ".",
         paste0(m, ".  This warning is for developers only")
@@ -563,7 +564,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
     mess <- gsub("\033\\[[0-9;]*[mK]", "", rlang::cnd_message(ret$value))
     trace_string <- paste(capture.output(print(ret$value$parent$trace)), collapse = "\n")
     mess <- paste(mess, trace_string, sep = "\n")
-    if (status) status_log('ERROR', log_file, stage_, paste(name_, mess))
+    if (status & do_log) status_log('ERROR', log_file, stage_, paste(name_, mess))
     if (status) update_status_status(
       stage = status_$settings$current_stage$item,
       item = item_, status = "failure"
@@ -585,7 +586,7 @@ status_try_catch <- function(exp, stage_, name_, item_, order_, sub_ = NULL) {
       }
     }
     if (go) {
-      if (status) status_log("SUCCESS", log_file, stage_, name_)
+      if (status & do_log) status_log("SUCCESS", log_file, stage_, name_)
       if (status) update_status_status(
         stage = status_$settings$current_stage$item,
         item = item_, status = "success"
